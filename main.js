@@ -4,7 +4,7 @@ const contex = canvas.getContext('2d');
 
 canvas.width = 600
 canvas.height = 600
-
+let canvasPosition = canvas.getBoundingClientRect();
 // PLayer class //
 class Player {
     constructor(){
@@ -135,28 +135,33 @@ const projectiles = []
 const grids = []
 
 
-// Player movement a, d & space//
+// Player movement & space//
+const mouse = {
+    x: canvas.width/2,
+    y: canvas.height/2,
+    move: false
+}
+    canvas.addEventListener("mousemove", function(e){
+    mouse.move = true
+    mouse.x = e.x - canvasPosition.left;
+    mouse.y = e.y - canvasPosition.top;
+    //console.log(mouse.x, mouse.y)
+});
+
 const keys ={
-    a: {
-        pressed: false
-    },
-    d: {
-        pressed: false
-    },
     space: {
         pressed: false
     }
 }
+
 function playerMovement(){
-    if (keys.a.pressed && player.position.x >=0){
-        player.velocity.x = -5
-    } else if (keys.d.pressed && player.position.x +player.width <= canvas.width){
-        player.velocity.x = 5
-    }else{
-        player.velocity.x = 0
-    }
+
+   if(mouse.move === true){
+    player.position.x = mouse.x
+   }
 
 }
+
 let frames = 0
 let randomInterval = Math.floor(Math.random() * 500 + 500)
 
@@ -168,6 +173,8 @@ function animate(){
     
     player.update()
     playerMovement()
+
+    
     projectiles.forEach((projectile, index) => {
         if(projectile.position.y + projectile.radius <= 0){
             setTimeout(()=>{
@@ -217,18 +224,11 @@ function animate(){
 animate()
 // key setups// 
 addEventListener('keydown', ({key}) =>{
-    console.log(key)
+    //console.log(key)
     switch (key) {
-        case 'a':
-            console.log('left')
-            keys.a.pressed = true
-            break;
-        case 'd':
-            console.log('right')
-            keys.d.pressed = true
-            break;
+
         case ' ':
-            console.log('space')
+            //console.log('space')
             projectiles.push(new Projectile({
                 position: {
                     x: player.position.x + player.width / 2,
@@ -239,23 +239,15 @@ addEventListener('keydown', ({key}) =>{
                     y: -10
                 }
                 }))
-            console.log(projectiles)
+            //console.log(projectiles)
             break;
     }
 })
 addEventListener('keyup', ({key}) =>{
-    console.log(key)
+    //console.log(key)
     switch (key) {
-        case 'a':
-            console.log('left')
-            keys.a.pressed = false
-            break;
-        case 'd':
-            console.log('right')
-            keys.d.pressed = false
-            break;
         case ' ':
-            console.log('space')
+            //console.log('space')  
             break;
     }
 })
