@@ -3,6 +3,8 @@ const contex = canvas.getContext("2d");
 const scoreOnScreen = document.querySelector('#score');
 const startGameBtn = document.querySelector('#start')
 let canvasPosition = canvas.getBoundingClientRect();
+canvas.width = 600;
+canvas.height = 600;
 
 
 
@@ -171,20 +173,6 @@ class InvaderProjectile {
 }
 
 
-// Mouse movement
-
-const mouse = {
-    x: canvas.width/2,
-    y: canvas.height/2,
-    move: false
-}
-    canvas.addEventListener("mousemove", function(e){
-    mouse.move = true
-    mouse.x = e.x - canvasPosition.left;
-    mouse.y = e.y - canvasPosition.top;
-    //console.log(mouse.x, mouse.y)
-});
-
 
 const player = new Player()
 const grids = []
@@ -198,14 +186,6 @@ let game = {
 }
 let score = 0
 
-function playerMouseMovement(){
-
-    if(mouse.move === true){
-     player.position.x = mouse.x
-     player.position.y = player.position.y
-    }
- 
- }
 function shoot(){
     projectiles.forEach((projectile, index)=>{
         if(projectile.position.y + projectile.radius <= 0){
@@ -341,7 +321,7 @@ function animate(){
     contex.fillStyle = 'black'
     contex.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
-    playerMouseMovement()
+    //playerMouseMovement()
     shoot()
     spawnInvaders()
     invaderShoots()
@@ -354,7 +334,7 @@ startGameBtn.addEventListener('click', function(){
     console.log('Game Started')
 })
 
-addEventListener('click', (e) =>{
+canvas.addEventListener('click', (e) =>{
     e.preventDefault()
     if(game.over) return
     projectiles.push(new Projectile({
@@ -368,3 +348,37 @@ addEventListener('click', (e) =>{
         }
     }))
 })
+/*
+const mouse = {
+    x: canvas.width/2 - player.width / 2,
+    y: canvas.height/2,
+}
+    canvas.addEventListener("mousemove", function(e){
+    mouse.move = true
+    mouse.x = e.x - canvasPosition.left;
+    mouse.y = e.y - canvasPosition.top;
+    //console.log(mouse.x, mouse.y)
+});
+*/
+canvas.addEventListener("mousemove", function(e){getMousePosition(canvas, e);});
+function getMousePosition(canvas, event) {
+    event.preventDefault();
+    let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    //let xl = event.clientx - rect.right;
+    //console.log("Coordinate x: " + x, "Coordinate y: " + y);
+    console.log(x)
+    player.position.x = x
+    player.position.y = player.position.y
+    
+}
+/*
+function playerMouseMovement(){
+
+    if(mouse.move === true){
+     player.position.x = mouse.x
+     player.position.y = player.position.y
+    }
+ 
+ }
+*/
