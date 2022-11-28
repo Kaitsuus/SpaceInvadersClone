@@ -367,8 +367,11 @@ function getMousePosition(canvas, event) {
     let x = event.clientX - rect.left;
     //let xl = event.clientx - rect.right;
     //console.log("Coordinate x: " + x, "Coordinate y: " + y);
-    console.log(x)
+    //console.log(x)
     player.position.x = x
+    if(player.position.x >= 590){
+        player.position.x = x -60
+    }
     player.position.y = player.position.y
     
 }
