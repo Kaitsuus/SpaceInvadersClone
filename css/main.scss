@@ -1,8 +1,33 @@
 .sectionCanvas{
-    p{
-        position:fixed;
-        z-index: 10;
+    canvas{
+        width: 600px;
+        height: 600px;
+        z-index: -999;
+        border: 5px solid black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    #scores{
         color: white;
-        margin-left: 1em;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 60px;
+        margin-top: -16em;
+        margin-left: -14em;
+
+    }
+    #start{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: black;
+        width: 200px;
+        height: 75px;
     }
 }
